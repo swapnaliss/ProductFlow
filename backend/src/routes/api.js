@@ -4,11 +4,38 @@ const Products = require('../models/Products');
 const CustomerPreference = require('../models/CustomerPreference');
 const Order = require('../models/Order');
 
-router.get('/data', async (req, res) => {
+router.get('/most-popular-product', async (req, res) => {
     try {
-        const products = await Products.find();
-        console.log(products);
-        res.json(products);
+        const aggregationPipeline = [
+            {
+                $lookup: {
+                    from: "customerpreferences",
+                    localField: "preference",
+                    foreignField: "preference_id",
+                    as: "productPreferences"
+                }
+            },
+            { $unwind: "$productPreferences" },
+            {
+                $group: {
+                    _id: "$productPreferences.product_id",
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { count: -1 } },
+            { $limit: 1 }
+        ];
+
+        const [mostPopularProductResult] = await Order.aggregate(aggregationPipeline);
+
+        if (!mostPopularProductResult) {
+            return res.json({ message: "No popular product found." });
+        }
+
+        const mostPopularProduct = await Products.findOne({ product_id: mostPopularProductResult._id });
+
+        res.json(mostPopularProduct);
+
     } catch (error) {
         res.json({ message: error });
     }
