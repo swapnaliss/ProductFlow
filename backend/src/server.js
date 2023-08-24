@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://swapnalisbhargude123:TEPjYUYTdUTLHmZh@cluster0.zvjimc2.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://swapnalisbhargude123:TEPjYUYTdUTLHmZh@cluster0.zvjimc2.mongodb.net/ProductFlow', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
