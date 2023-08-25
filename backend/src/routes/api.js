@@ -41,21 +41,99 @@ router.get('/most-popular-product', async (req, res) => {
     }
 });
 
-router.get('/customerPreference', async (req, res) => {
+router.get('/customers-ordered-all-products', async (req, res) => {
     try {
-        const customerPreference = await CustomerPreference.find();
-        console.log(customerPreference);
-        res.json(customerPreference);
+        const totalProducts = await Products.countDocuments();
+
+        const aggregationPipeline = [
+            {
+                $lookup: {
+                    from: "customerpreferences",
+                    localField: "preference",
+                    foreignField: "preference_id",
+                    as: "productPreferences"
+                }
+            },
+            { $unwind: "$productPreferences" },
+            {
+                $group: {
+                    _id: "$customer_id",
+                    uniqueProductsOrdered: { $addToSet: "$productPreferences.product_id" }
+                }
+            },
+            {
+                $addFields: {
+                    totalUniqueProductsOrdered: { $size: "$uniqueProductsOrdered" }
+                }
+            },
+            {
+                $match: { totalUniqueProductsOrdered: totalProducts }
+            }
+        ];
+
+        const customersOrderedAllProducts = await Order.aggregate(aggregationPipeline);
+
+        const customerIds = customersOrderedAllProducts.map(customer => customer._id);
+
+        res.json(customerIds);
+
     } catch (error) {
         res.json({ message: error });
     }
 });
 
-router.get('/order', async (req, res) => {
+router.get('/customers-bought-inexpensive-items', async (req, res) => {
     try {
-        const order = await Order.find();
-        console.log(order);
-        res.json(order);
+        const avgResult = await Products.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    avgPrice: { $avg: "$price" }
+                }
+            }
+        ]);
+        console.log(avgResult);
+
+        const averagePrice = avgResult[0].avgPrice;
+        console.log(averagePrice);
+
+        const aggregationPipeline = [
+            {
+                $lookup: {
+                    from: "customerpreferences",
+                    localField: "preference",
+                    foreignField: "preference_id",
+                    as: "productPreferences"
+                }
+            },
+            { $unwind: "$productPreferences" },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "productPreferences.product_id",
+                    foreignField: "products_id",
+                    as: "productDetails"
+                }
+            },
+            { $unwind: "$productDetails" },
+            {
+                $match: {
+                    "productDetails.price": { $lt: averagePrice }
+                }
+            },
+            {
+                $group: {
+                    _id: "$customer_id"
+                }
+            }
+        ];
+        const customers = await Order.aggregate(aggregationPipeline);
+        console.log(customers);
+        
+        const customerIds = customers.map(customer => customer._id);
+
+        res.json(customerIds);
+
     } catch (error) {
         res.json({ message: error });
     }
