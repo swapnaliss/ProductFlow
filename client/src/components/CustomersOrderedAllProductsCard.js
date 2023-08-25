@@ -24,22 +24,20 @@ const CustomersOrderedAllProductsCard = () => {
     }, []);
 
     return (
-        <div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold mb-4">Customers have ordered all products</h2>
-                {error && <p className="text-red-500">Error: {error}</p>}
-                {customers && (
-                    <div>
-                        {customers.map(customer => (
-                            <div key={customer}>
-                                <li>
-                                    {customer}
-                                </li>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+        <div className="bg-white p-6 rounded-lg shadow-md transform transition-transform duration-300 hover:bg-gray-100 hover:scale-105">
+            <h2 className="text-xl font-semibold mb-4">Customers have ordered all products</h2>
+            {error && <p className="text-red-500">Error: {error}</p>}
+            {customers && (
+                <div>
+                    {customers.map(customer => (
+                        <div key={customer}>
+                            <li>
+                                {customer}
+                            </li>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

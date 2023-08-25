@@ -23,16 +23,14 @@ const MostPopularProductCard = () => {
     }, []);
 
     return (
-        <div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold mb-4">Most Popular Product</h2>
-                {error && <p className="text-red-500">Error: {error}</p>}
-                {product && (
-                    <div>
-                        <h2>{product.name}</h2>
-                    </div>
-                )}
-            </div>
+        <div className="bg-white p-6 rounded-lg shadow-md transform transition-transform duration-300 hover:bg-gray-100 hover:scale-105">
+            <h2 className="text-xl font-semibold mb-4">Most Popular Product</h2>
+            {error && <p className="text-red-500">Error: {error}</p>}
+            {product && (
+                <div>
+                    <h2>{product.name}</h2>
+                </div>
+            )}
         </div>
     )
 }
