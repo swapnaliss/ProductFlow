@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ProductsTable from './ProductsTable';
 import CustomerPreferenceTable from './CustomerPreferenceTable';
 import OrdersTable from './OrdersTable';
+import MostPopularProductCard from './MostPopularProductCard';
+import CustomersOrderedAllProductsCard from './CustomersOrderedAllProductsCard';
+import InExpensiveItemsCard from './InExpensiveItemsCard';
 
 function Dashboard() {
   const [products, setProducts] = useState([]);
@@ -21,6 +24,15 @@ function Dashboard() {
 
   return (
     <div className="p-6 md:p-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+
+        <MostPopularProductCard />
+
+        <CustomersOrderedAllProductsCard />
+
+        <InExpensiveItemsCard />
+
+      </div>
 
       {/* Rendering tables */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

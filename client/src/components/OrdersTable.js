@@ -3,7 +3,7 @@ import React from 'react'
 const OrdersTable = ({orders}) => {
     return (
         <div>
-            <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto border border-gray-700">
                 <h2 className="text-lg font-semibold mb-4">Orders</h2>
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>

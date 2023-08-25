@@ -4,7 +4,7 @@ const ProductsTable = ({ products }) => {
 
     return (
         <div>
-            <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto border border-gray-700">
                 <h2 className="text-lg font-semibold mb-4">Products</h2>
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>
