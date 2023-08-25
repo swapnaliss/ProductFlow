@@ -26,7 +26,7 @@ const CustomersOrderedAllProductsCard = () => {
     return (
         <div>
             <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold mb-4">Who have ordered all products</h2>
+                <h2 className="text-xl font-semibold mb-4">Customers have ordered all products</h2>
                 {error && <p className="text-red-500">Error: {error}</p>}
                 {customers && (
                     <div>
