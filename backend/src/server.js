@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require('cors'); 
 
 const app = express();
-const port = process.env.PORT || 3000;
+app.use(cors());
+
+const port = process.env.PORT || 4000;
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://swapnalisbhargude123:TEPjYUYTdUTLHmZh@cluster0.zvjimc2.mongodb.net/ProductFlow', {
