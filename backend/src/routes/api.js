@@ -4,6 +4,22 @@ const Products = require('../models/Products');
 const CustomerPreference = require('../models/CustomerPreference');
 const Order = require('../models/Order');
 
+router.get('/allData', async (req, res) => {
+    try {
+        const products = await Products.find();
+        const customerPreferences = await CustomerPreference.find();
+        const orders = await Order.find();
+
+        res.json({
+            products: products,
+            customerPreferences: customerPreferences,
+            orders: orders
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+});
+
 router.get('/most-popular-product', async (req, res) => {
     try {
         const aggregationPipeline = [
